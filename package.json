@@ -1,0 +1,19 @@
+{
+  "name": "shopeasy-api-automation",
+  "version": "1.0.0",
+  "description": "Playwright API automation for ShopEasy Order Management API",
+  "scripts": {
+    "test": "playwright test",
+    "test:auth": "playwright test tests/auth.spec.ts",
+    "test:products": "playwright test tests/products.spec.ts",
+    "test:cart": "playwright test tests/cart.spec.ts",
+    "test:orders": "playwright test tests/orders.spec.ts",
+    "test:payments": "playwright test tests/payments.spec.ts",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^25.6.0",
+    "typescript": "^5.4.5"
+  }
+}
