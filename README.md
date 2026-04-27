@@ -4,27 +4,37 @@ Playwright + TypeScript API test suite for the [ShopEasy Order Management API](h
 
 ## Tech Stack
 
-- [Playwright Test](https://playwright.dev/) — API testing framework
-- TypeScript 5.x
+| Tool | Purpose |
+|------|---------|
+| [Playwright Test](https://playwright.dev/) | API test runner & assertions |
+| TypeScript 5.x | Type-safe test authoring |
+| Node.js 18+ | Runtime |
 
 ## Project Structure
 
 ```
 api-automation/
-├── playwright.config.ts       # Base URL, timeout, reporter config
-├── tsconfig.json
+├── .gitignore
 ├── package.json
-└── tests/
-    ├── helpers/
-    │   └── auth.ts            # Login helper & shared auth utilities
-    ├── auth.spec.ts           # 6 tests  — POST /auth/login, POST /auth/register
-    ├── products.spec.ts       # 5 tests  — GET /products, GET /products/{id}
-    ├── cart.spec.ts           # 8 tests  — POST /cart/items, GET /cart, DELETE /cart/items/{itemId}
-    ├── orders.spec.ts         # 8 tests  — POST /orders, GET /orders/{orderId}, DELETE /orders/{orderId}/cancel
-    └── payments.spec.ts       # 6 tests  — POST /payments, GET /payments/{paymentId}
+├── tsconfig.json
+├── playwright.config.ts           # Base URL, timeout, reporter config
+├── tests/
+│   ├── helpers/
+│   │   └── auth.ts                # Login helper & shared auth utilities
+│   ├── auth.spec.ts               # 6 tests  — POST /auth/login, POST /auth/register
+│   ├── products.spec.ts           # 5 tests  — GET /products, GET /products/{id}
+│   ├── cart.spec.ts               # 8 tests  — POST /cart/items, GET /cart, DELETE /cart/items/{itemId}
+│   ├── orders.spec.ts             # 8 tests  — POST /orders, GET /orders/{orderId}, DELETE /orders/{orderId}/cancel
+│   └── payments.spec.ts           # 6 tests  — POST /payments, GET /payments/{paymentId}
+└── qa-docs/
+    ├── test-strategy.md           # Objectives, scope, testing types, risks
+    ├── test-plan.md               # Features, approach, schedule, entry/exit criteria
+    ├── test-cases.md              # All 33 test cases with steps & expected results
+    ├── traceability-matrix.md     # Requirement ↔ test case mapping & coverage %
+    └── execution-report.md        # Run results, defect log, sign-off
 ```
 
-**Total: 33 test cases**
+**Total: 33 test cases | 11 endpoints | 5 modules**
 
 ## Prerequisites
 
@@ -50,7 +60,18 @@ npm install
 | `npm run test:payments` | Payments tests only |
 | `npm run report` | Open the last HTML report |
 
-## Test Coverage
+## API Coverage
+
+| Module | Endpoints | Tests | Pass Rate |
+|--------|-----------|-------|-----------|
+| Auth | POST /auth/login, POST /auth/register | 6 | 100% |
+| Products | GET /products, GET /products/{id} | 5 | 100% |
+| Cart | POST /cart/items, GET /cart, DELETE /cart/items/{itemId} | 8 | 100% |
+| Orders | POST /orders, GET /orders/{orderId}, DELETE /orders/{orderId}/cancel | 8 | 100% |
+| Payments | POST /payments, GET /payments/{paymentId} | 6 | 100% |
+| **Total** | **11 endpoints** | **33** | **100%** |
+
+## Test Cases Summary
 
 ### Auth (6 tests)
 | ID | Scenario | Expected |
@@ -105,8 +126,20 @@ npm install
 | TC-PAY-05 | Get payment status for valid paymentId | 200 + full schema |
 | TC-PAY-06 | Get payment status for non-existent ID | 404 |
 
+## QA Documentation
+
+Detailed QA artefacts are in the [`qa-docs/`](qa-docs/) folder:
+
+| Document | Description |
+|----------|-------------|
+| [test-strategy.md](qa-docs/test-strategy.md) | Testing objectives, scope, approach, tools, and risk management |
+| [test-plan.md](qa-docs/test-plan.md) | Features to test, test design techniques, schedule, entry/exit criteria |
+| [test-cases.md](qa-docs/test-cases.md) | All 33 test cases with preconditions, steps, test data, and expected results |
+| [traceability-matrix.md](qa-docs/traceability-matrix.md) | Requirement ↔ test case mapping, 97% requirement coverage, gap analysis |
+| [execution-report.md](qa-docs/execution-report.md) | Final run results — 33/33 passed, defect log, sign-off table |
+
 ## Notes
 
 - Tests that mutate shared state (cart, orders, payments) register a **fresh user** per test to ensure isolation.
 - The default admin credentials used for read-only tests are `admin@shopeasy.com` / `password123`.
-# ShopEasy-API-Automation
+- Generated output (`node_modules/`, `playwright-report/`, `test-results/`) is excluded via `.gitignore`.
